@@ -7,8 +7,13 @@
 
 .Canvas  {
   display: block;
+  text-align: center;
 }
 
 input {
   display: block;
+  width: 10rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1.5rem;
 }

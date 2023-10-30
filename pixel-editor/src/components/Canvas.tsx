@@ -1,9 +1,9 @@
-import { ReactSketchCanvas } from "react-sketch-canvas";
 import "../App.css";
 
 type CanvasProps = {
-    selectedWidth: number;
-    selectedHeight: number;
+    ref: React.MutableRefObject<null>;
+    selectedWidth: string;
+    selectedHeight: string;
     selectedStroke: number;
     selectedColor: string;
 }
