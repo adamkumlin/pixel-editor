@@ -1,20 +1,27 @@
 import "../App.css";
+import Pixel from "./Pixel";
 
 type CanvasProps = {
-    ref: React.MutableRefObject<null>;
-    selectedWidth: string;
-    selectedHeight: string;
-    selectedStroke: number;
-    selectedColor: string;
-}
+  width: number;
+  height: number;
+  pixelColor: string;
+};
 
-const Canvas: React.FC<CanvasProps> = ({selectedWidth, selectedHeight, selectedStroke, selectedColor}) => {
+const Canvas: React.FC<CanvasProps> = ({ width, height, pixelColor }) => {
+    
+  const elements: any = new Array(width * height).fill(<Pixel color={pixelColor}/>);
 
   return (
-    <div className="Canvas">
-      <ReactSketchCanvas width={selectedWidth} height={selectedHeight} strokeWidth={selectedStroke} strokeColor={selectedColor}/>
+    <div
+      style={{
+        gridTemplateRows: "repeat(" + height + ", 10px)",
+        gridTemplateColumns: "repeat(" + width + ", 10px)",
+      }}
+      className="Canvas"
+    >
+      {elements}
     </div>
-  )
-}
+  );
+};
 
 export default Canvas;

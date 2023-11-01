@@ -1,39 +1,26 @@
-import {
-  ChangeEvent,
-  ChangeEventHandler,
-  useState,
-  useRef,
-  createElement,
-} from "react";
+import { ChangeEvent, ChangeEventHandler, useState } from "react";
 import Canvas from "./Canvas";
 import "../App.css";
 
 const Editor: React.FC = () => {
-  const [selectedWidth, setSelectedWidth] = useState<string>("64");
-  const [selectedHeight, setSelectedHeight] = useState<string>("64");
-  const [selectedStroke, setSelectedStroke] = useState<number>(1);
-  const [selectedColor, setSelectedColor] = useState<string>("#555555");
-  const [selectedFileFormat, setSelectedFileFormat] =
-    useState<string>("png");
-
-  const canvasRef = useRef(null);
+  const [selectedWidth, setSelectedWidth] = useState<number>(10);
+  const [selectedHeight, setSelectedHeight] = useState<number>(10);
+  const [selectedColor, setSelectedColor] = useState<string>("#FFFFFF");
+  const [selectedFileFormat, setSelectedFileFormat] = useState<string>("png");
+  const [didGenerateCanvas, setDidGenerateCanvas] = useState<boolean>(false);
 
   const handleWidthChange: ChangeEventHandler<HTMLInputElement> = (
     e: ChangeEvent<HTMLInputElement>
   ) => {
-    setSelectedWidth(e.target.value);
+    setSelectedWidth(parseInt(e.target.value));
+    setDidGenerateCanvas(false);
   };
 
   const handleHeightChange: ChangeEventHandler<HTMLInputElement> = (
     e: ChangeEvent<HTMLInputElement>
   ) => {
-    setSelectedHeight(e.target.value);
-  };
-
-  const handleStrokeChange: ChangeEventHandler<HTMLInputElement> = (
-    e: ChangeEvent<HTMLInputElement>
-  ) => {
-    setSelectedStroke(parseInt(e.target.value));
+    setSelectedHeight(parseInt(e.target.value));
+    setDidGenerateCanvas(false);
   };
 
   const handleColorChange: ChangeEventHandler<HTMLInputElement> = (
@@ -46,15 +33,12 @@ const Editor: React.FC = () => {
     e: ChangeEvent<HTMLSelectElement>
   ) => {
     setSelectedFileFormat(e.target.value);
+    setDidGenerateCanvas(false);
   };
 
-  const downloadDrawing: () => void = () => {
-    canvasRef.current.exportImage(selectedFileFormat).then(data => {
-      console.log(data);
-    }).catch(e => {
-      console.log(e);
-    })
-  };
+  const generateCanvas: () => void = () => {
+    setDidGenerateCanvas(didGenerateCanvas ? false : true);
+  }
 
   return (
     <div className="Editor">
@@ -77,15 +61,6 @@ const Editor: React.FC = () => {
       </label>
 
       <label>
-        Stroke width
-        <input
-          type="number"
-          value={selectedStroke}
-          onChange={handleStrokeChange}
-        />
-      </label>
-
-      <label>
         Color
         <input
           type="color"
@@ -94,22 +69,18 @@ const Editor: React.FC = () => {
         />
       </label>
 
-      <Canvas
-        ref={canvasRef}
-        selectedWidth={selectedWidth}
-        selectedHeight={selectedHeight}
-        selectedStroke={selectedStroke}
-        selectedColor={selectedColor}
-      />
+      {didGenerateCanvas ? <Canvas width={selectedWidth} height={selectedHeight} pixelColor={selectedColor}/> : null}
+
+      <button onClick={generateCanvas}>Generate canvas</button>
 
       <label>
-        Download drawing as:
+        Download drawing as
         <select defaultValue="image/png" onChange={handleOptionChange}>
           <option value="image/png">.png</option>
           <option value="image/jpeg">.jpeg</option>
         </select>
+        <button onClick={() => console.log("e")}>Download</button>
       </label>
-      <button onClick={downloadDrawing}>Download</button>
     </div>
   );
 };
