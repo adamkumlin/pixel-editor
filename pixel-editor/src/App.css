@@ -5,12 +5,21 @@
   text-align: center;
 }
 
+@supports (width: fit-content) and (user-select: none) {
+  .Canvas  {
+    display: grid;
+    width: fit-content;
+    margin-bottom: 4rem;
+    user-select: none;
+  }
+};
+
 .Canvas  {
   display: grid;
-  width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
+  width: moz-fit-content;
   margin-bottom: 4rem;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 input {
@@ -21,7 +30,6 @@ input {
   margin-bottom: 1.5rem;
 }
 
-.Pixel  {
+.showOutline {
   border: 0.2px solid black;
-  
 }

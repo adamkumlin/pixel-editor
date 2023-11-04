@@ -2,31 +2,42 @@ import { useState } from "react";
 import "../App.css";
 
 type PixelProps = {
-    color: string;
-    isDrawing: boolean;
-}
+  color: string;
+  isDrawing: boolean;
+  pixelClass: string;
+};
 
-const Pixel: React.FC<PixelProps> = ({color, isDrawing}) => {
+const Pixel: React.FC<PixelProps> = ({
+  color,
+  isDrawing,
+  pixelClass,
+}) => {
+  const [pixelColor, setPixelColor] = useState({
+    backgroundColor: "whitesmoke",
+  });
 
-    const [pixelStyle, setPixelStyle] = useState<any>({
-        backgroundColor: "whitesmoke"
+  const paintPixel = () => {
+    setPixelColor({
+      backgroundColor: color,
     });
+  };
 
-    const paintPixel = () => {
-        setPixelStyle({backgroundColor: color});
+  const draw = () => {
+    if (isDrawing) {
+      setPixelColor({
+        backgroundColor: color,
+      });
     }
+  };
 
-    const startDrawing = () => {
-        if (isDrawing) {
-            console.log("yaa");
-            setPixelStyle({backgroundColor: color});
-        }
-    }
-
-
-
-  return <div style={pixelStyle} draggable="false" onMouseOver={startDrawing} onClick={paintPixel} className="Pixel"></div>;
-    
-}
+  return (
+    <div
+      style={pixelColor}
+      onMouseOver={draw}
+      onClick={paintPixel}
+      className={pixelClass}
+    ></div>
+  );
+};
 
 export default Pixel;

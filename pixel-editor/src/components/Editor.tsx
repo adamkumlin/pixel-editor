@@ -1,85 +1,82 @@
-import { ChangeEvent, ChangeEventHandler, useState } from "react";
+import { useState, useRef } from "react";
+import { toPng } from "html-to-image";
 import Canvas from "./Canvas";
+import InputField from "./InputField";
+import Toolbox from "./Toolbox";
 import "../App.css";
+
+type FileFormat = "png" | "jpeg";
 
 const Editor: React.FC = () => {
   const [selectedWidth, setSelectedWidth] = useState<number>(10);
   const [selectedHeight, setSelectedHeight] = useState<number>(10);
-  const [selectedColor, setSelectedColor] = useState<string>("#FFFFFF");
-  const [selectedFileFormat, setSelectedFileFormat] = useState<string>("png");
-  const [didGenerateCanvas, setDidGenerateCanvas] = useState<boolean>(false);
+  const [selectedColor, setSelectedColor] = useState<string>("#777777");
+  const [selectedFileFormat, setSelectedFileFormat] =
+    useState<FileFormat>("png");
+  const [pixelClass, setPixelClass] = useState("Pixel showOutline");
 
-  const handleWidthChange: ChangeEventHandler<HTMLInputElement> = (
-    e: ChangeEvent<HTMLInputElement>
-  ) => {
-    setSelectedWidth(parseInt(e.target.value));
-    setDidGenerateCanvas(false);
+  const canvasRef = useRef(null);
+
+  const generatePNG = () => {
+    if (canvasRef.current) {
+      toPng(canvasRef.current, { cacheBust: false })
+        .then((dataURL) => {
+          const link = document.createElement("a");
+          link.download = "pixel-art.png";
+          link.href = dataURL;
+          link.click();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
-
-  const handleHeightChange: ChangeEventHandler<HTMLInputElement> = (
-    e: ChangeEvent<HTMLInputElement>
-  ) => {
-    setSelectedHeight(parseInt(e.target.value));
-    setDidGenerateCanvas(false);
-  };
-
-  const handleColorChange: ChangeEventHandler<HTMLInputElement> = (
-    e: ChangeEvent<HTMLInputElement>
-  ) => {
-    setSelectedColor(e.target.value);
-  };
-
-  const handleOptionChange: ChangeEventHandler<HTMLSelectElement> = (
-    e: ChangeEvent<HTMLSelectElement>
-  ) => {
-    setSelectedFileFormat(e.target.value);
-    setDidGenerateCanvas(false);
-  };
-
-  const generateCanvas: () => void = () => {
-    setDidGenerateCanvas(didGenerateCanvas ? false : true);
-  }
 
   return (
     <div className="Editor">
-      <label>
-        Width
-        <input
-          type="number"
-          value={selectedWidth}
-          onChange={handleWidthChange}
-        />
-      </label>
+      <InputField
+        label="Width"
+        type="number"
+        value={selectedWidth}
+        onChange={(e) => setSelectedWidth(parseInt(e.target.value))}
+      />
 
-      <label>
-        Height
-        <input
-          type="number"
-          value={selectedHeight}
-          onChange={handleHeightChange}
-        />
-      </label>
+      <InputField
+        label="Height"
+        type="number"
+        value={selectedHeight}
+        onChange={(e) => setSelectedHeight(parseInt(e.target.value))}
+      />
 
-      <label>
-        Color
-        <input
-          type="color"
-          value={selectedColor}
-          onChange={handleColorChange}
-        />
-      </label>
+      <InputField
+        label="Color"
+        type="color"
+        value={selectedColor}
+        onChange={(e) => setSelectedColor(e.target.value)}
+      />
 
-      {didGenerateCanvas ? <Canvas width={selectedWidth} height={selectedHeight} pixelColor={selectedColor}/> : null}
+      <Toolbox pixelClass={pixelClass} setPixelClass={setPixelClass} />
 
-      <button onClick={generateCanvas}>Generate canvas</button>
+      <Canvas
+        width={selectedWidth}
+        height={selectedHeight}
+        pixelColor={selectedColor}
+        pixelClass={pixelClass}
+        ref={canvasRef}
+      />
 
       <label>
         Download drawing as
-        <select defaultValue="image/png" onChange={handleOptionChange}>
+        <select
+          defaultValue="image/png"
+          onChange={() =>
+            setSelectedFileFormat(selectedFileFormat == "png" ? "jpeg" : "png")
+          }
+        >
           <option value="image/png">.png</option>
           <option value="image/jpeg">.jpeg</option>
         </select>
-        <button onClick={() => console.log("e")}>Download</button>
+        <button onClick={generatePNG}>Download</button>
       </label>
     </div>
   );
