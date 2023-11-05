@@ -1,4 +1,4 @@
-import { RefObject, forwardRef, useState, ForwardedRef} from "react";
+import { forwardRef, useState, ForwardedRef } from "react";
 import "../App.css";
 import Pixel from "./Pixel";
 
@@ -7,32 +7,36 @@ type CanvasProps = {
   height: number;
   pixelColor: string;
   pixelClass: string;
+  pixelSize: number;
 };
 
 const Canvas: React.FC<CanvasProps> = forwardRef(
   (props, ref: ForwardedRef<HTMLDivElement | null>) => {
-  const { width, height, pixelColor, pixelClass } = props;
+    const { width, height, pixelColor, pixelClass, pixelSize } = props;
 
-  const [isDrawing, setIsDrawing] = useState<boolean>(false);
+    const [isDrawing, setIsDrawing] = useState<boolean>(false);
 
-  const elements: any = new Array(width * height).fill(
-    <Pixel color={pixelColor} isDrawing={isDrawing} pixelClass={pixelClass} />
-  );
+    const elements: any = new Array(width * height).fill(
+      <Pixel color={pixelColor} isDrawing={isDrawing} pixelClass={pixelClass} size={pixelSize}/>
+    );
 
-  return (
-    <div
-      onMouseDown={() => setIsDrawing(true)}
-      onMouseUp={() => setIsDrawing(false)}
-      style={{
-        gridTemplateRows: "repeat(" + height + ", 10px)",
-        gridTemplateColumns: "repeat(" + width + ", 10px)",
-      }}
-      className="Canvas"
-      ref={ref as RefObject<HTMLDivElement>}
-    >
-      {elements}
-    </div>
-  );
-});
+    return (
+      <div className="CanvasContainer">
+        <div
+          onMouseDown={() => setIsDrawing(true)}
+          onMouseUp={() => setIsDrawing(false)}
+          style={{
+            gridTemplateRows: "repeat(" + height + ", " + pixelSize + "px)",
+            gridTemplateColumns: "repeat(" + width + ", " + pixelSize + "px)",
+          }}
+          className="Canvas"
+          ref={ref}
+        >
+          {elements}
+        </div>
+      </div>
+    );
+  }
+);
 
 export default Canvas;

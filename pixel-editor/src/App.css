@@ -5,29 +5,36 @@
   text-align: center;
 }
 
+.CanvasContainer {
+  display: flex;
+  justify-content: center;
+  margin: 2rem;
+}
+
 @supports (width: fit-content) and (user-select: none) {
   .Canvas  {
     display: grid;
-    width: fit-content;
-    margin-bottom: 4rem;
     user-select: none;
   }
 };
 
 .Canvas  {
   display: grid;
-  width: moz-fit-content;
-  margin-bottom: 4rem;
   -webkit-user-select: none;
   user-select: none;
 }
 
-input {
+.InputField {
   display: block;
   width: 10rem;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 1.5rem;
+}
+
+.Pixel {
+  width: 30px;
+  height: 30px;
 }
 
 .showOutline {

@@ -5,15 +5,21 @@ type PixelProps = {
   color: string;
   isDrawing: boolean;
   pixelClass: string;
+  size: number;
 };
 
 const Pixel: React.FC<PixelProps> = ({
   color,
   isDrawing,
-  pixelClass,
+  pixelClass, size
 }) => {
   const [pixelColor, setPixelColor] = useState({
     backgroundColor: "whitesmoke",
+  });
+
+  const [pixelDimensions, setPixelDimensions] = useState({
+    width: size,
+    height: size
   });
 
   const paintPixel = () => {
@@ -32,7 +38,7 @@ const Pixel: React.FC<PixelProps> = ({
 
   return (
     <div
-      style={pixelColor}
+      style={{...pixelColor, ...pixelDimensions}}
       onMouseOver={draw}
       onClick={paintPixel}
       className={pixelClass}
