@@ -61,12 +61,14 @@ const Editor: React.FC = () => {
   };
 
   useEffect(() => {
-    if (selectedWidth > 45 || selectedHeight > 45) {
+    if (selectedWidth > 70 || selectedHeight > 70) {
+      setPixelSize(5);
+    } else if (selectedWidth > 45 || selectedHeight > 45) {
       setPixelSize(15);
     } else if (selectedWidth <= 45 || selectedHeight <= 45) {
       setPixelSize(30);
     }
-  });
+  }, [selectedWidth, selectedHeight]);
 
   return (
     <div className="Editor">

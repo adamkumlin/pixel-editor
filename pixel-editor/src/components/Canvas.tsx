@@ -20,6 +20,8 @@ const Canvas: React.FC<CanvasProps> = forwardRef(
       <Pixel color={pixelColor} isDrawing={isDrawing} pixelClass={pixelClass} size={pixelSize}/>
     );
 
+    //console.log(elements)
+
     return (
       <div className="CanvasContainer">
         <div

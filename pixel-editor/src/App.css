@@ -24,6 +24,10 @@
   user-select: none;
 }
 
+.Canvas:hover {
+  cursor: crosshair;
+}
+
 .InputField {
   display: block;
   width: 10rem;
