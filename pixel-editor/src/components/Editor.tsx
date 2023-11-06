@@ -17,6 +17,7 @@ const Editor: React.FC = () => {
   const [pixelClass, setPixelClass] = useState("Pixel showOutline");
   const [pixelSize, setPixelSize] = useState<number>(30);
   const [drawCanvas, setDrawCanvas] = useState<boolean>(false);
+  const [clearCanvasPressed, setClearCanvasPressed] = useState<boolean>(false);
 
   const canvasRef = useRef(null);
 
@@ -100,7 +101,7 @@ const Editor: React.FC = () => {
         />
       ) : null}
 
-      <Toolbox pixelClass={pixelClass} setPixelClass={setPixelClass} />
+      <Toolbox pixelClass={pixelClass} setPixelClass={setPixelClass} clearCanvasPressed={clearCanvasPressed} setClearCanvasPressed={setClearCanvasPressed}/>
 
       {drawCanvas || (selectedWidth <= 45 && selectedHeight <= 45) ? (
         <Canvas
@@ -109,6 +110,8 @@ const Editor: React.FC = () => {
           pixelColor={selectedColor}
           pixelClass={pixelClass}
           pixelSize={pixelSize}
+          clearCanvasPressed={clearCanvasPressed}
+          setClearCanvasPressed={setClearCanvasPressed}
           ref={canvasRef}
         />
       ) : null}
