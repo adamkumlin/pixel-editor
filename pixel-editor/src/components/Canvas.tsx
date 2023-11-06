@@ -8,8 +8,6 @@ type CanvasProps = {
   pixelColor: string;
   pixelClass: string;
   pixelSize: number;
-  clearCanvasPressed: boolean;
-  setClearCanvasPressed: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const Canvas: React.FC<CanvasProps> = forwardRef(
@@ -20,7 +18,6 @@ const Canvas: React.FC<CanvasProps> = forwardRef(
       pixelColor,
       pixelClass,
       pixelSize,
-      clearCanvasPressed, setClearCanvasPressed
     } = props;
 
     const [isDrawing, setIsDrawing] = useState<boolean>(false);
@@ -34,24 +31,6 @@ const Canvas: React.FC<CanvasProps> = forwardRef(
         size={pixelSize}
       />
     ));
-    
-
-    if (clearCanvasPressed) {
-
-      elements = [];
-      console.log(elements[0])
-      elements = new Array(width * height).fill(null).map((_, index) => (
-        <Pixel
-          key={index}
-          color="#FFFFFF"
-          isDrawing={isDrawing}
-          pixelClass={pixelClass}
-          size={pixelSize}
-        />
-      ));
-
-      setClearCanvasPressed(false);
-    }
 
     return (
       <div className="CanvasContainer">

@@ -4,13 +4,13 @@ import Button from "./Button";
 type ToolboxProps = {
     pixelClass: string;
     setPixelClass: React.Dispatch<React.SetStateAction<string>>;
-    clearCanvasPressed: boolean;
-    setClearCanvasPressed: React.Dispatch<React.SetStateAction<boolean>>;
+    setSelectedColor: React.Dispatch<React.SetStateAction<string>>;
+    recentColors: string[];
 }
 
-const Pixel: React.FC<ToolboxProps> = ({pixelClass, setPixelClass, clearCanvasPressed, setClearCanvasPressed}) => {
+const Pixel: React.FC<ToolboxProps> = ({pixelClass, setPixelClass, setSelectedColor, recentColors}) => {
 
-    const eraserColor: string = "#777777";
+    const eraserColor: string = "#FFFFFF";
 
     const handlePixelOutlineChange: () => void = () => {
         if (pixelClass == "Pixel showOutline") {
@@ -23,7 +23,10 @@ const Pixel: React.FC<ToolboxProps> = ({pixelClass, setPixelClass, clearCanvasPr
   return (
     <div className="Toolbox">
         <Button label="Toggle Outline" onClick={handlePixelOutlineChange}/>
-        <Button label="Clear Canvas" onClick={() => setClearCanvasPressed(!clearCanvasPressed ? true : false)}/>
+        <Button label="Eraser" onClick={() => setSelectedColor(eraserColor)}/>
+        <div>{recentColors.map((color, index) => (
+            <Button buttonColor={{backgroundColor: color}} key={index} onClick={() => setSelectedColor(color)}/>
+        ))}</div>
     </div>
   );
     

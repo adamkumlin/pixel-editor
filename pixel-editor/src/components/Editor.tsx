@@ -17,7 +17,7 @@ const Editor: React.FC = () => {
   const [pixelClass, setPixelClass] = useState("Pixel showOutline");
   const [pixelSize, setPixelSize] = useState<number>(30);
   const [drawCanvas, setDrawCanvas] = useState<boolean>(false);
-  const [clearCanvasPressed, setClearCanvasPressed] = useState<boolean>(false);
+  const [recentColors, setRecentColors] = useState<string[]>([]);
 
   const canvasRef = useRef(null);
 
@@ -30,6 +30,14 @@ const Editor: React.FC = () => {
     setDrawCanvas(false);
     setSelectedHeight(parseInt(e.target.value));
   };
+
+  const handleChangeColor = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedColor(e.target.value);
+  }
+
+  const updateRecentColors = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRecentColors(current => [...current, e.target.value]);
+  }
 
   const generateImage = () => {
     if (selectedFileFormat === "png") {
@@ -91,7 +99,8 @@ const Editor: React.FC = () => {
         label="Color"
         type="color"
         value={selectedColor}
-        onChange={(e) => setSelectedColor(e.target.value)}
+        onChange={handleChangeColor}
+        onMouseUp={updateRecentColors}
       />
 
       {selectedWidth > 45 || selectedHeight > 45 ? (
@@ -101,7 +110,7 @@ const Editor: React.FC = () => {
         />
       ) : null}
 
-      <Toolbox pixelClass={pixelClass} setPixelClass={setPixelClass} clearCanvasPressed={clearCanvasPressed} setClearCanvasPressed={setClearCanvasPressed}/>
+      <Toolbox pixelClass={pixelClass} setPixelClass={setPixelClass} setSelectedColor={setSelectedColor} recentColors={recentColors}/>
 
       {drawCanvas || (selectedWidth <= 45 && selectedHeight <= 45) ? (
         <Canvas
@@ -110,8 +119,6 @@ const Editor: React.FC = () => {
           pixelColor={selectedColor}
           pixelClass={pixelClass}
           pixelSize={pixelSize}
-          clearCanvasPressed={clearCanvasPressed}
-          setClearCanvasPressed={setClearCanvasPressed}
           ref={canvasRef}
         />
       ) : null}

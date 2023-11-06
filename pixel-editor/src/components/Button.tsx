@@ -1,14 +1,15 @@
 import "../App.css";
 
 type ButtonProps = {
-    label: string;
+    label?: string;
     onClick: React.MouseEventHandler<HTMLButtonElement>;
+    buttonColor?: any;
 }
-const Button: React.FC<ButtonProps> = ({label, onClick}) => {
+const Button: React.FC<ButtonProps> = ({label, onClick, buttonColor}) => {
 
   return (
     <div className="Button">
-      <button onClick={onClick}>{label}</button>
+      <button style={buttonColor} onClick={onClick}>{label}</button>
     </div>
   );
 };

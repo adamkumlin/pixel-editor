@@ -17,10 +17,10 @@ const Pixel: React.FC<PixelProps> = ({
     backgroundColor: "whitesmoke",
   });
 
-  const [pixelDimensions, setPixelDimensions] = useState({
+  const pixelDimensions = {
     width: size,
     height: size
-  });
+  };
 
   const paintPixel = () => {
     setPixelColor({
