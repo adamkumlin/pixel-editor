@@ -12,13 +12,13 @@
 }
 
 @supports (width: fit-content) and (user-select: none) {
-  .Canvas  {
+  .Canvas {
     display: grid;
     user-select: none;
   }
-};
+}
 
-.Canvas  {
+.Canvas {
   display: grid;
   -webkit-user-select: none;
   user-select: none;
@@ -29,11 +29,33 @@
 }
 
 .InputField {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: fit-content;
+  margin: auto;
+}
+
+.InputField label {
+  color: whitesmoke;
+  font-weight: bold;
+}
+
+.Field {
   display: block;
-  width: 10rem;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
+  height: 2rem;
+  width: 5rem;
+}
+
+.Field[type="number"] {
+  border-radius: 10px;
+}
+
+.Button button,
+.Field {
+  background-color: rgb(193, 193, 193);
+  color: black;
 }
 
 .Pixel {
@@ -43,4 +65,11 @@
 
 .showOutline {
   border: 0.2px solid black;
+}
+
+.Toolbox {
+  display: inline;
+}
+
+.Toolbox .Button {
 }
