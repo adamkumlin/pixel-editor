@@ -14,10 +14,12 @@ const Editor: React.FC = () => {
   const [selectedColor, setSelectedColor] = useState<string>("#777777");
   const [selectedFileFormat, setSelectedFileFormat] =
     useState<FileFormat>("png");
-  const [pixelClass, setPixelClass] = useState("Pixel showOutline");
+  const [pixelClass, setPixelClass] = useState("Pixel showOutline notEdited");
   const [pixelSize, setPixelSize] = useState<number>(30);
   const [drawCanvas, setDrawCanvas] = useState<boolean>(false);
   const [recentColors, setRecentColors] = useState<string[]>([]);
+  const [wasEdited, setWasEdited] = useState<boolean>(false);
+  const [downloadClicked, setDownloadClicked] = useState<boolean>(false);
 
   const canvasRef = useRef(null);
 
@@ -40,6 +42,9 @@ const Editor: React.FC = () => {
   }
 
   const generateImage = () => {
+
+    setDownloadClicked(true);
+
     if (selectedFileFormat === "png") {
       if (canvasRef.current) {
         toPng(canvasRef.current, { cacheBust: false })
@@ -119,6 +124,9 @@ const Editor: React.FC = () => {
           pixelColor={selectedColor}
           pixelClass={pixelClass}
           pixelSize={pixelSize}
+          setWasEdited={setWasEdited}
+          wasEdited={wasEdited}
+          downloadClicked={downloadClicked}
           ref={canvasRef}
         />
       ) : null}

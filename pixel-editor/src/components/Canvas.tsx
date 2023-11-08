@@ -8,6 +8,9 @@ type CanvasProps = {
   pixelColor: string;
   pixelClass: string;
   pixelSize: number;
+  setWasEdited: React.Dispatch<React.SetStateAction<boolean>>;
+  wasEdited: boolean;
+  downloadClicked: boolean;
 };
 
 const Canvas: React.FC<CanvasProps> = forwardRef(
@@ -17,7 +20,7 @@ const Canvas: React.FC<CanvasProps> = forwardRef(
       height,
       pixelColor,
       pixelClass,
-      pixelSize,
+      pixelSize, setWasEdited, wasEdited, downloadClicked
     } = props;
 
     const [isDrawing, setIsDrawing] = useState<boolean>(false);
@@ -29,6 +32,9 @@ const Canvas: React.FC<CanvasProps> = forwardRef(
         isDrawing={isDrawing}
         pixelClass={pixelClass}
         size={pixelSize}
+        setWasEdited={setWasEdited}
+        downloadClicked={downloadClicked}
+        wasEdited={wasEdited}
       />
     ));
 
