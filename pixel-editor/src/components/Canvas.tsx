@@ -8,32 +8,28 @@ type CanvasProps = {
   pixelColor: string;
   pixelClass: string;
   pixelSize: number;
-  setWasEdited: React.Dispatch<React.SetStateAction<boolean>>;
-  wasEdited: boolean;
-  downloadClicked: boolean;
+  eraserIsActive: boolean;
 };
 
 const Canvas: React.FC<CanvasProps> = forwardRef(
   (props, ref: ForwardedRef<HTMLDivElement | null>) => {
-    const {
-      width,
-      height,
-      pixelColor,
-      pixelClass,
-      pixelSize, 
-    } = props;
+    const { width, height, pixelColor, pixelClass, pixelSize, eraserIsActive } =
+      props;
 
     const [isDrawing, setIsDrawing] = useState<boolean>(false);
 
-    let elements: any = new Array(width * height).fill(null).map((_, index) => (
-      <Pixel
-        key={index}
-        color={pixelColor}
-        isDrawing={isDrawing}
-        pixelClass={pixelClass}
-        size={pixelSize}
-      />
-    ));
+    const elements: any = new Array(width * height)
+      .fill(null)
+      .map((_, index) => (
+        <Pixel
+          key={index}
+          color={pixelColor}
+          isDrawing={isDrawing}
+          pixelClass={pixelClass}
+          size={pixelSize}
+          eraserIsActive={eraserIsActive}
+        />
+      ));
 
     return (
       <div className="CanvasContainer">

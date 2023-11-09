@@ -9,15 +9,16 @@ import "../App.css";
 type FileFormat = "png" | "jpeg";
 
 const Editor: React.FC = () => {
-  const [selectedWidth, setSelectedWidth] = useState<number>(10);
-  const [selectedHeight, setSelectedHeight] = useState<number>(10);
+  const [selectedWidth, setSelectedWidth] = useState<number>(16);
+  const [selectedHeight, setSelectedHeight] = useState<number>(16);
   const [selectedColor, setSelectedColor] = useState<string>("#FFFFFF");
   const [selectedFileFormat, setSelectedFileFormat] =
     useState<FileFormat>("png");
   const [pixelClass, setPixelClass] = useState("Pixel showOutline");
-  const [pixelSize, setPixelSize] = useState<number>(30);
+  const [pixelSize, setPixelSize] = useState<number | null>(null);
   const [drawCanvas, setDrawCanvas] = useState<boolean>(false);
   const [recentColors, setRecentColors] = useState<string[]>([]);
+  const [eraserIsActive, setEraserIsActive] = useState<boolean>(false);
 
   const canvasRef = useRef(null);
 
@@ -36,6 +37,9 @@ const Editor: React.FC = () => {
   };
 
   const updateRecentColors = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (recentColors.includes(e.target.value)) {
+      return;
+    }
     setRecentColors((current) => [...current, e.target.value]);
   };
 
@@ -44,7 +48,7 @@ const Editor: React.FC = () => {
 
     if (selectedFileFormat === "png") {
       if (canvasRef.current) {
-        toPng(canvasRef.current, { cacheBust: false })
+        toPng(canvasRef.current, { cacheBust: false, /*width: selectedWidth, height: selectedHeight*/ })
           .then((dataURL) => {
             const link = document.createElement("a");
             link.download = "pixel-art.png";
@@ -72,13 +76,25 @@ const Editor: React.FC = () => {
   };
 
   useEffect(() => {
-    if (selectedWidth > 70 || selectedHeight > 70) {
-      setPixelSize(5);
-    } else if (selectedWidth > 45 || selectedHeight > 45) {
-      setPixelSize(15);
-    } else if (selectedWidth <= 45 || selectedHeight <= 45) {
+    let pixelWidth: number = 640 / selectedWidth;
+    
+    let pixelHeight: number = 640 / selectedHeight;
+    
+    let pixelArea = (pixelWidth + pixelHeight) / 2;
+
+    setPixelSize(pixelArea);
+
+    /*if (totalPixelAmount >= 10_000) {
+      setPixelSize(6);
+    } else if (totalPixelAmount >= 4096) {
+      setPixelSize(11);
+    } else if (totalPixelAmount >= 1024) {
       setPixelSize(30);
-    }
+    } else if (totalPixelAmount >= 256) {
+      setPixelSize(41);
+    } else if (totalPixelAmount >= 64) {
+      setPixelSize(30);
+    }*/
   }, [selectedWidth, selectedHeight]);
 
   return (
@@ -102,7 +118,7 @@ const Editor: React.FC = () => {
         type="color"
         value={selectedColor}
         onChange={handleChangeColor}
-        onMouseUp={updateRecentColors}
+        onBlur={updateRecentColors}
       />
 
       {selectedWidth > 45 || selectedHeight > 45 ? (
@@ -113,9 +129,11 @@ const Editor: React.FC = () => {
       ) : null}
 
       <Toolbox
+        setSelectedColor={setSelectedColor}
         pixelClass={pixelClass}
         setPixelClass={setPixelClass}
-        setSelectedColor={setSelectedColor}
+        setEraserIsActive={setEraserIsActive}
+        eraserIsActive={eraserIsActive}
         recentColors={recentColors}
       />
 
@@ -126,13 +144,14 @@ const Editor: React.FC = () => {
           pixelColor={selectedColor}
           pixelClass={pixelClass}
           pixelSize={pixelSize}
+          eraserIsActive={eraserIsActive}
           ref={canvasRef}
         />
       ) : null}
 
       <div className="DownloadField">
         <label>
-          Download drawing as
+          Download as
           <select
             defaultValue="image/png"
             onChange={() =>

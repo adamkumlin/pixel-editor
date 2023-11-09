@@ -6,14 +6,14 @@ type InputFieldProps = {
   type: string;
   value: any;
   onChange: ChangeEventHandler<HTMLInputElement>;
-  onMouseUp?: any;
+  onBlur?: any;
 };
 const InputField: React.FC<InputFieldProps> = ({
   label,
   type,
   value,
   onChange,
-  onMouseUp,
+  onBlur,
 }) => {
   return (
     <div className="InputField">
@@ -24,7 +24,7 @@ const InputField: React.FC<InputFieldProps> = ({
           type={type}
           value={value}
           onChange={onChange}
-          onMouseUp={onMouseUp}
+          onBlur={onBlur}
         />
       </label>
     </div>
