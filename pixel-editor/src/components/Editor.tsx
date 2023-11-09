@@ -11,15 +11,13 @@ type FileFormat = "png" | "jpeg";
 const Editor: React.FC = () => {
   const [selectedWidth, setSelectedWidth] = useState<number>(10);
   const [selectedHeight, setSelectedHeight] = useState<number>(10);
-  const [selectedColor, setSelectedColor] = useState<string>("#777777");
+  const [selectedColor, setSelectedColor] = useState<string>("#FFFFFF");
   const [selectedFileFormat, setSelectedFileFormat] =
     useState<FileFormat>("png");
-  const [pixelClass, setPixelClass] = useState("Pixel showOutline notEdited");
+  const [pixelClass, setPixelClass] = useState("Pixel showOutline");
   const [pixelSize, setPixelSize] = useState<number>(30);
   const [drawCanvas, setDrawCanvas] = useState<boolean>(false);
   const [recentColors, setRecentColors] = useState<string[]>([]);
-  const [wasEdited, setWasEdited] = useState<boolean>(false);
-  const [downloadClicked, setDownloadClicked] = useState<boolean>(false);
 
   const canvasRef = useRef(null);
 
@@ -35,15 +33,14 @@ const Editor: React.FC = () => {
 
   const handleChangeColor = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedColor(e.target.value);
-  }
+  };
 
   const updateRecentColors = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setRecentColors(current => [...current, e.target.value]);
-  }
+    setRecentColors((current) => [...current, e.target.value]);
+  };
 
   const generateImage = () => {
-
-    setDownloadClicked(true);
+    setPixelClass("Pixel");
 
     if (selectedFileFormat === "png") {
       if (canvasRef.current) {
@@ -115,7 +112,12 @@ const Editor: React.FC = () => {
         />
       ) : null}
 
-      <Toolbox pixelClass={pixelClass} setPixelClass={setPixelClass} setSelectedColor={setSelectedColor} recentColors={recentColors}/>
+      <Toolbox
+        pixelClass={pixelClass}
+        setPixelClass={setPixelClass}
+        setSelectedColor={setSelectedColor}
+        recentColors={recentColors}
+      />
 
       {drawCanvas || (selectedWidth <= 45 && selectedHeight <= 45) ? (
         <Canvas
@@ -124,26 +126,27 @@ const Editor: React.FC = () => {
           pixelColor={selectedColor}
           pixelClass={pixelClass}
           pixelSize={pixelSize}
-          setWasEdited={setWasEdited}
-          wasEdited={wasEdited}
-          downloadClicked={downloadClicked}
           ref={canvasRef}
         />
       ) : null}
 
-      <label>
-        Download drawing as
-        <select
-          defaultValue="image/png"
-          onChange={() =>
-            setSelectedFileFormat(selectedFileFormat == "png" ? "jpeg" : "png")
-          }
-        >
-          <option value="image/png">.png</option>
-          <option value="image/jpeg">.jpeg</option>
-        </select>
-        <Button label="Download" onClick={generateImage} />
-      </label>
+      <div className="DownloadField">
+        <label>
+          Download drawing as
+          <select
+            defaultValue="image/png"
+            onChange={() =>
+              setSelectedFileFormat(
+                selectedFileFormat == "png" ? "jpeg" : "png"
+              )
+            }
+          >
+            <option value="image/png">.png</option>
+            <option value="image/jpeg">.jpeg</option>
+          </select>
+        </label>
+      </div>
+      <Button label="Download" onClick={generateImage} />
     </div>
   );
 };

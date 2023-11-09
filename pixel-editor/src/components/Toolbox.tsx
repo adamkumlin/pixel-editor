@@ -10,21 +10,11 @@ type ToolboxProps = {
 
 const Pixel: React.FC<ToolboxProps> = ({pixelClass, setPixelClass, setSelectedColor, recentColors}) => {
 
-    const eraserColor: string = "#FFFFFF";
-
-    const handlePixelOutlineChange: () => void = () => {
-        if (pixelClass === "Pixel showOutline") {
-            setPixelClass("Pixel");
-        } else if (pixelClass === "Pixel showOutline notEdited") {
-            setPixelClass("Pixel notEdited");
-        } else if (pixelClass === "Pixel notEdited") {
-            setPixelClass("Pixel notEdited showOutline");
-        }
-    };
+    const eraserColor: string = "#00000000";
 
   return (
     <div className="Toolbox">
-        <Button label="Toggle Outline" onClick={handlePixelOutlineChange}/>
+        <Button onClick={() => setPixelClass(pixelClass == "Pixel" ? "Pixel showOutline" : "Pixel")}/>
         <Button className="Eraser" onClick={() => setSelectedColor(eraserColor)}/>
         <div>{recentColors.map((color, index) => (
             <Button buttonColor={{backgroundColor: color}} key={index} onClick={() => setSelectedColor(color)}/>

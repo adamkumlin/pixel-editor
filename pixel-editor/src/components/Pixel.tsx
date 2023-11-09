@@ -6,18 +6,15 @@ type PixelProps = {
   isDrawing: boolean;
   pixelClass: string;
   size: number;
-  setWasEdited: React.Dispatch<React.SetStateAction<boolean>>;
-  wasEdited: boolean;
-  downloadClicked: boolean;
 };
 
 const Pixel: React.FC<PixelProps> = ({
   color,
   isDrawing,
-  pixelClass, size, setWasEdited, wasEdited, downloadClicked
+  pixelClass, size,
 }) => {
   const [pixelColor, setPixelColor] = useState({
-    backgroundColor: "whitesmoke",
+    backgroundColor: "transparent"
   });
 
   const pixelDimensions = {
@@ -25,14 +22,10 @@ const Pixel: React.FC<PixelProps> = ({
     height: size
   };
 
-  if (downloadClicked) {
-
-  }
   const paintPixel = () => {
     setPixelColor({
       backgroundColor: color,
     });
-    setWasEdited(true);
   };
 
   const draw = () => {
@@ -40,7 +33,6 @@ const Pixel: React.FC<PixelProps> = ({
       setPixelColor({
         backgroundColor: color,
       });
-      setWasEdited(true);
     }
   };
 

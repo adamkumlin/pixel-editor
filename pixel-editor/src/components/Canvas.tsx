@@ -20,7 +20,7 @@ const Canvas: React.FC<CanvasProps> = forwardRef(
       height,
       pixelColor,
       pixelClass,
-      pixelSize, setWasEdited, wasEdited, downloadClicked
+      pixelSize, 
     } = props;
 
     const [isDrawing, setIsDrawing] = useState<boolean>(false);
@@ -32,9 +32,6 @@ const Canvas: React.FC<CanvasProps> = forwardRef(
         isDrawing={isDrawing}
         pixelClass={pixelClass}
         size={pixelSize}
-        setWasEdited={setWasEdited}
-        downloadClicked={downloadClicked}
-        wasEdited={wasEdited}
       />
     ));
 
