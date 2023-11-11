@@ -83,18 +83,7 @@ const Editor: React.FC = () => {
     let pixelArea = (pixelWidth + pixelHeight) / 2;
 
     setPixelSize(pixelArea);
-
-    /*if (totalPixelAmount >= 10_000) {
-      setPixelSize(6);
-    } else if (totalPixelAmount >= 4096) {
-      setPixelSize(11);
-    } else if (totalPixelAmount >= 1024) {
-      setPixelSize(30);
-    } else if (totalPixelAmount >= 256) {
-      setPixelSize(41);
-    } else if (totalPixelAmount >= 64) {
-      setPixelSize(30);
-    }*/
+    
   }, [selectedWidth, selectedHeight]);
 
   return (
@@ -117,6 +106,7 @@ const Editor: React.FC = () => {
         label="Color"
         type="color"
         value={selectedColor}
+        disabled={eraserIsActive}
         onChange={handleChangeColor}
         onBlur={updateRecentColors}
       />
@@ -135,6 +125,7 @@ const Editor: React.FC = () => {
         setEraserIsActive={setEraserIsActive}
         eraserIsActive={eraserIsActive}
         recentColors={recentColors}
+        setRecentColors={setRecentColors}
       />
 
       {drawCanvas || (selectedWidth <= 45 && selectedHeight <= 45) ? (

@@ -7,13 +7,14 @@ type InputFieldProps = {
   value: any;
   onChange: ChangeEventHandler<HTMLInputElement>;
   onBlur?: any;
+  disabled?: boolean;
 };
 const InputField: React.FC<InputFieldProps> = ({
   label,
   type,
   value,
   onChange,
-  onBlur,
+  onBlur, disabled
 }) => {
   return (
     <div className="InputField">
@@ -25,6 +26,7 @@ const InputField: React.FC<InputFieldProps> = ({
           value={value}
           onChange={onChange}
           onBlur={onBlur}
+          disabled={disabled}
         />
       </label>
     </div>

@@ -7,6 +7,7 @@ type ToolboxProps = {
   setPixelClass: React.Dispatch<React.SetStateAction<string>>;
   recentColors: string[];
   setEraserIsActive: React.Dispatch<React.SetStateAction<boolean>>;
+  setRecentColors: React.Dispatch<React.SetStateAction<string[]>>;
   eraserIsActive: boolean;
   setSelectedColor: React.Dispatch<React.SetStateAction<string>>;
 };
@@ -19,6 +20,7 @@ const Pixel: React.FC<ToolboxProps> = ({
   pixelClass,
   setPixelClass,
   recentColors,
+  setRecentColors,
   setEraserIsActive,
   eraserIsActive,
   setSelectedColor,
