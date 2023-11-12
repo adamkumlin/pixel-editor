@@ -15,26 +15,12 @@ const Editor: React.FC = () => {
   const [selectedFileFormat, setSelectedFileFormat] =
     useState<FileFormat>("png");
   const [pixelClass, setPixelClass] = useState("Pixel showOutline");
-  const [pixelSize, setPixelSize] = useState<number | null>(null);
+  const [pixelSize, setPixelSize] = useState<number>(40);
   const [drawCanvas, setDrawCanvas] = useState<boolean>(false);
   const [recentColors, setRecentColors] = useState<string[]>([]);
   const [eraserIsActive, setEraserIsActive] = useState<boolean>(false);
 
   const canvasRef = useRef(null);
-
-  const handleChangeWidth = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDrawCanvas(false);
-    setSelectedWidth(parseInt(e.target.value));
-  };
-
-  const handleChangeHeight = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDrawCanvas(false);
-    setSelectedHeight(parseInt(e.target.value));
-  };
-
-  const handleChangeColor = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedColor(e.target.value);
-  };
 
   const updateRecentColors = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (recentColors.includes(e.target.value)) {
@@ -92,14 +78,14 @@ const Editor: React.FC = () => {
         label="Width"
         type="number"
         value={selectedWidth}
-        onChange={(e) => handleChangeWidth(e)}
+        onChange={(e) => setSelectedWidth(parseInt(e.target.value))}
       />
 
       <InputField
         label="Height"
         type="number"
         value={selectedHeight}
-        onChange={(e) => handleChangeHeight(e)}
+        onChange={(e) => setSelectedHeight(parseInt(e.target.value))}
       />
 
       <InputField
@@ -107,7 +93,7 @@ const Editor: React.FC = () => {
         type="color"
         value={selectedColor}
         disabled={eraserIsActive}
-        onChange={handleChangeColor}
+        onChange={(e) => setSelectedColor(e.target.value)}
         onBlur={updateRecentColors}
       />
 
@@ -125,7 +111,8 @@ const Editor: React.FC = () => {
         setEraserIsActive={setEraserIsActive}
         eraserIsActive={eraserIsActive}
         recentColors={recentColors}
-        setRecentColors={setRecentColors}
+        setPixelSize={setPixelSize}
+        pixelSize={pixelSize}
       />
 
       {drawCanvas || (selectedWidth <= 45 && selectedHeight <= 45) ? (

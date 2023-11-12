@@ -9,6 +9,7 @@ type CanvasProps = {
   pixelClass: string;
   pixelSize: number;
   eraserIsActive: boolean;
+  ref: any;
 };
 
 const Canvas: React.FC<CanvasProps> = forwardRef(
