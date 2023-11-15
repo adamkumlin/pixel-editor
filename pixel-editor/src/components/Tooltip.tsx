@@ -1,17 +1,13 @@
-import { useState } from "react";
 import "../App.css";
 
 type TooltipProps = {
-  label: string;
+  label: string | undefined;
+  visibilityStatus: "none" | "block";
 };
 
-type VisibilityStatus = "visible" | "hidden";
+const Tooltip: React.FC<TooltipProps> = ({ label, visibilityStatus}) => {
 
-const Tooltip: React.FC<TooltipProps> = ({ label }) => {
-
-    const [visibilityStatus, setVisibilityStatus] = useState<VisibilityStatus>("hidden");
-
-  return <div className="Tooltip" onMouseEnter={() => setVisibilityStatus("visible")} onMouseLeave={() => setVisibilityStatus("hidden")} style={{visibility: visibilityStatus}}>{label}</div>;
+  return <div className="Tooltip" style={{display: visibilityStatus}}>{label}</div>;
 };
 
 export default Tooltip;

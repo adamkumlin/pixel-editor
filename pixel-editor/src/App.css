@@ -118,3 +118,18 @@ select {
 .outlineOff {
   background: url("./assets/outline.png");
 }
+
+.Tooltip {
+  color: white;
+  font-size: 120%;
+  margin-right: 0;
+  margin-left: 0;
+  position: absolute;
+  top: auto;
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.Button {
+  width: fit-content;
+}

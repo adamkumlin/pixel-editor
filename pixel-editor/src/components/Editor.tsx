@@ -111,8 +111,6 @@ const Editor: React.FC = () => {
         setEraserIsActive={setEraserIsActive}
         eraserIsActive={eraserIsActive}
         recentColors={recentColors}
-        setPixelSize={setPixelSize}
-        pixelSize={pixelSize}
       />
 
       {drawCanvas || (selectedWidth <= 45 && selectedHeight <= 45) ? (
