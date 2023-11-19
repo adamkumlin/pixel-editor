@@ -50,10 +50,11 @@ const Toolbox: React.FC<ToolboxProps> = ({
 
   return (
     <div className="Toolbox">
-      <Button className={outlineClass} onClick={handleOutlineChange} />
+      <div className="PrimaryTools">
+      <Button className={outlineClass} onClick={handleOutlineChange} tooltipLabel={outlineClass === "Outline outlineOn" ? "Hide outline" : "Show outline"}/>
       <Button className={eraserClass} onClick={handleEraserChange} tooltipLabel={eraserIsActive ? "Toggle off" : "Toggle on"}/>
+      </div>
       <div className="ColorHistory">
-        {recentColors.length > 0 ? <p>Color History:</p> : null}
         {recentColors.map((color, index) => (
           <Button
             buttonColor={{ backgroundColor: color }}

@@ -26,7 +26,14 @@ const Editor: React.FC = () => {
     if (recentColors.includes(e.target.value)) {
       return;
     }
-    setRecentColors((current) => [...current, e.target.value]);
+
+    if (recentColors.length >= 9) {
+      let updatedRecentColors: string[] = recentColors.slice(1);
+      updatedRecentColors.push(e.target.value);
+      setRecentColors(updatedRecentColors);
+    } else {
+      setRecentColors((current) => [...current, e.target.value]);
+    }
   };
 
   const generateImage = () => {
@@ -34,7 +41,9 @@ const Editor: React.FC = () => {
 
     if (selectedFileFormat === "png") {
       if (canvasRef.current) {
-        toPng(canvasRef.current, { cacheBust: false, /*width: selectedWidth, height: selectedHeight*/ })
+        toPng(canvasRef.current, {
+          cacheBust: false /*width: selectedWidth, height: selectedHeight*/,
+        })
           .then((dataURL) => {
             const link = document.createElement("a");
             link.download = "pixel-art.png";
@@ -63,13 +72,12 @@ const Editor: React.FC = () => {
 
   useEffect(() => {
     let pixelWidth: number = 640 / selectedWidth;
-    
+
     let pixelHeight: number = 640 / selectedHeight;
-    
+
     let pixelArea = (pixelWidth + pixelHeight) / 2;
 
     setPixelSize(pixelArea);
-    
   }, [selectedWidth, selectedHeight]);
 
   return (
@@ -134,8 +142,7 @@ const Editor: React.FC = () => {
               setSelectedFileFormat(
                 selectedFileFormat == "png" ? "jpeg" : "png"
               )
-            }
-          >
+            }>
             <option value="image/png">.png</option>
             <option value="image/jpeg">.jpeg</option>
           </select>
