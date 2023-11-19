@@ -1,7 +1,7 @@
 # pixel-editor
 
 This is a simple drawing application I made. Its intended usage is to be assist in the creation of pixel art, but it can be used to create other types of art as well. 
-This application uses a limited amount of external libraries. The only functionality for which a library has been used for is the exporting function.
+This application uses a limited amount of external libraries. The only functionality for which a library has been used for is the exporting functionality.
 
 ## Usage
 
@@ -16,6 +16,14 @@ element and choosing a new color. Below is a video to visualize this:
 https://github.com/adamkumlin/pixel-editor/assets/71759619/a7ff602e-3d78-4c0b-8ae4-df6e91f4e9f5
 
 The next two buttons are *Toggle outline* and *Eraser*. As their names suggest, they are for toggling the canvas's outline, and for erasing pixels' colors.
+
+Below is an example of using the editor:
+
+https://github.com/adamkumlin/pixel-editor/assets/71759619/16402375-1c6f-4193-a31f-5618d8753f2b
+
+Lastly, here is the finished drawing, downloaded as a PNG:
+
+![mario](https://github.com/adamkumlin/pixel-editor/assets/71759619/8e634217-23be-40ff-8064-9498d8b9c21e)
 
 ## Technologies used
 - React
