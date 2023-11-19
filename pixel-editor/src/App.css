@@ -7,16 +7,14 @@
 
 .CanvasContainer {
   display: inline-block;
+  background-image: url("./assets/canvas-background.png");
+
 }
 
 .Canvas {
   display: grid;
   -webkit-user-select: none;
   user-select: none;
-}
-
-.CanvasContainer {
-  background-image: url("./assets/canvas-background.png");
 }
 
 .Canvas:hover {
@@ -81,24 +79,25 @@ select {
   justify-content: center;
 }
 
-
 .ColorHistory {
-  height: 50px;
-  margin: 1rem 0 0 0;
+  margin: 1rem 0 1rem 0;
+  height: fit-content;
 }
 
 .ColorHistory .Button {
-  width: 25px;
-  margin: 0.5rem;
-  height: 25px;
-  padding: 0;
   display: inline-block;
+  margin: 0 0.25rem 0 0.25rem;
 }
 
-.Eraser,
-.Outline {
-  width: 50px;
-  height: 50px;
+.ColorHistory button {
+  width: 25px;
+  height: 40px;
+  border-radius: 50px;
+}
+
+.ColorHistory .Button:hover {
+  scale: 0.8;
+  transition: 200ms;
 }
 
 .eraserDisabled {
@@ -122,3 +121,21 @@ select {
   position: absolute;
 }
 
+.PrimaryTools .Button {
+  position: relative;
+}
+
+.PrimaryTools .Button button {
+  width: 50px;
+  height: 50px;
+}
+
+.PrimaryTools .Button:first-of-type .Tooltip {
+  right: 55px;
+  top: -3px;
+}
+
+.PrimaryTools .Button:nth-of-type(2) .Tooltip {
+  left: 55px;
+  top: -3px;
+}

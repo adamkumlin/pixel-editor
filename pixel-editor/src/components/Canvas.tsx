@@ -19,7 +19,7 @@ const Canvas: React.FC<CanvasProps> = forwardRef(
 
     const [isDrawing, setIsDrawing] = useState<boolean>(false);
 
-    const elements: any = new Array(width * height)
+    const elements: JSX.Element[] = new Array(width * height)
       .fill(null)
       .map((_, index) => (
         <Pixel

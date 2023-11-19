@@ -6,18 +6,15 @@ import Toolbox from "./Toolbox";
 import Button from "./Button";
 import "../App.css";
 
-type FileFormat = "png" | "jpeg";
-
 const Editor: React.FC = () => {
   const [selectedWidth, setSelectedWidth] = useState<number>(16);
   const [selectedHeight, setSelectedHeight] = useState<number>(16);
   const [selectedColor, setSelectedColor] = useState<string>("#FFFFFF");
-  const [selectedFileFormat, setSelectedFileFormat] =
-    useState<FileFormat>("png");
+  const [selectedFileFormat, setSelectedFileFormat] = useState<string>("png");
   const [pixelClass, setPixelClass] = useState("Pixel showOutline");
   const [pixelSize, setPixelSize] = useState<number>(40);
   const [drawCanvas, setDrawCanvas] = useState<boolean>(false);
-  const [recentColors, setRecentColors] = useState<string[]>([]);
+  const [recentColors, setRecentColors] = useState<string[]>(["#FFFFFF"]);
   const [eraserIsActive, setEraserIsActive] = useState<boolean>(false);
 
   const canvasRef = useRef(null);
@@ -42,7 +39,7 @@ const Editor: React.FC = () => {
     if (selectedFileFormat === "png") {
       if (canvasRef.current) {
         toPng(canvasRef.current, {
-          cacheBust: false /*width: selectedWidth, height: selectedHeight*/,
+          cacheBust: false
         })
           .then((dataURL) => {
             const link = document.createElement("a");
@@ -56,7 +53,9 @@ const Editor: React.FC = () => {
       }
     } else {
       if (canvasRef.current) {
-        toJpeg(canvasRef.current, { cacheBust: false })
+        toJpeg(canvasRef.current, {
+          cacheBust: false
+        })
           .then((dataURL) => {
             const link = document.createElement("a");
             link.download = "pixel-art.jpg";
@@ -138,13 +137,9 @@ const Editor: React.FC = () => {
           Download as
           <select
             defaultValue="image/png"
-            onChange={() =>
-              setSelectedFileFormat(
-                selectedFileFormat == "png" ? "jpeg" : "png"
-              )
-            }>
-            <option value="image/png">.png</option>
-            <option value="image/jpeg">.jpeg</option>
+            onChange={(e) => setSelectedFileFormat(e.target.value)}>
+            <option value="png">.png</option>
+            <option value="jpeg">.jpeg</option>
           </select>
         </label>
       </div>

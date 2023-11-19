@@ -11,9 +11,9 @@ type ToolboxProps = {
   setSelectedColor: React.Dispatch<React.SetStateAction<string>>;
 };
 
-type OutlineStatus = "Outline outlineOn" | "Outline outlineOff";
+type OutlineStatus = "outlineOn" | "outlineOff";
 
-type EraserStatus = "Eraser eraserEnabled" | "Eraser eraserDisabled";
+type EraserStatus = "eraserEnabled" | "eraserDisabled";
 
 const Toolbox: React.FC<ToolboxProps> = ({
   pixelClass,
@@ -24,34 +24,34 @@ const Toolbox: React.FC<ToolboxProps> = ({
   setSelectedColor,
 }) => {
   const [outlineClass, setOutlineClass] =
-    useState<OutlineStatus>("Outline outlineOn");
+    useState<OutlineStatus>("outlineOn");
 
   const [eraserClass, setEraserClass] = useState<EraserStatus>(
-    "Eraser eraserDisabled"
+    "eraserDisabled"
   );
 
   const handleOutlineChange = () => {
     setPixelClass(pixelClass == "Pixel" ? "Pixel showOutline" : "Pixel");
     setOutlineClass(
-      outlineClass == "Outline outlineOn"
-        ? "Outline outlineOff"
-        : "Outline outlineOn"
+      outlineClass == "outlineOn"
+        ? "outlineOff"
+        : "outlineOn"
     );
   };
 
   const handleEraserChange = () => {
     setEraserIsActive(eraserIsActive ? false : true);
     setEraserClass(
-      eraserClass == "Eraser eraserEnabled"
-        ? "Eraser eraserDisabled"
-        : "Eraser eraserEnabled"
+      eraserClass == "eraserEnabled"
+        ? "eraserDisabled"
+        : "eraserEnabled"
     );
   };
 
   return (
     <div className="Toolbox">
       <div className="PrimaryTools">
-      <Button className={outlineClass} onClick={handleOutlineChange} tooltipLabel={outlineClass === "Outline outlineOn" ? "Hide outline" : "Show outline"}/>
+      <Button className={outlineClass} onClick={handleOutlineChange} tooltipLabel={outlineClass === "outlineOn" ? "Hide outline" : "Show outline"}/>
       <Button className={eraserClass} onClick={handleEraserChange} tooltipLabel={eraserIsActive ? "Toggle off" : "Toggle on"}/>
       </div>
       <div className="ColorHistory">
@@ -60,6 +60,7 @@ const Toolbox: React.FC<ToolboxProps> = ({
             buttonColor={{ backgroundColor: color }}
             key={index}
             onClick={() => setSelectedColor(color)}
+            tooltipLabel={color}
           />
         ))}
       </div>

@@ -1,6 +1,6 @@
 import "../App.css";
 import Tooltip from "./Tooltip";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 type ButtonProps = {
   label?: string;
