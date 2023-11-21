@@ -6,6 +6,10 @@ import Toolbox from "./Toolbox";
 import Button from "./Button";
 import "../App.css";
 
+type ExportWithOutlineStatus =
+  | "exportWithOutlineEnabled"
+  | "exportWithOutlineDisabled";
+
 const Editor: React.FC = () => {
   const [selectedWidth, setSelectedWidth] = useState<number>(16);
   const [selectedHeight, setSelectedHeight] = useState<number>(16);
@@ -16,6 +20,9 @@ const Editor: React.FC = () => {
   const [drawCanvas, setDrawCanvas] = useState<boolean>(false);
   const [recentColors, setRecentColors] = useState<string[]>(["#FFFFFF"]);
   const [eraserIsActive, setEraserIsActive] = useState<boolean>(false);
+  const [exportWithOutline, setExportWithOutline] = useState<boolean>(false);
+  const [exportWithOutlineClass, setExportWithOutlineClass] =
+    useState<ExportWithOutlineStatus>("exportWithOutlineDisabled");
 
   const canvasRef = useRef(null);
 
@@ -33,13 +40,22 @@ const Editor: React.FC = () => {
     }
   };
 
+  const handleExportWithOutlineChange = () => {
+    setExportWithOutlineClass(exportWithOutlineClass === "exportWithOutlineDisabled" ? "exportWithOutlineEnabled" : "exportWithOutlineDisabled");
+    setExportWithOutline(exportWithOutline ? false : true);
+  };
+
   const generateImage = () => {
-    setPixelClass("Pixel");
+    if (!exportWithOutline) {
+      setPixelClass("Pixel");
+    } else {
+      setPixelClass("Pixel showOutline");
+    }
 
     if (selectedFileFormat === "png") {
       if (canvasRef.current) {
         toPng(canvasRef.current, {
-          cacheBust: false
+          cacheBust: false,
         })
           .then((dataURL) => {
             const link = document.createElement("a");
@@ -54,7 +70,7 @@ const Editor: React.FC = () => {
     } else {
       if (canvasRef.current) {
         toJpeg(canvasRef.current, {
-          cacheBust: false
+          cacheBust: false,
         })
           .then((dataURL) => {
             const link = document.createElement("a");
@@ -136,11 +152,16 @@ const Editor: React.FC = () => {
         <label>
           Download as
           <select
-            defaultValue="image/png"
+            defaultValue="png"
             onChange={(e) => setSelectedFileFormat(e.target.value)}>
             <option value="png">.png</option>
             <option value="jpeg">.jpeg</option>
           </select>
+          <Button
+            onClick={handleExportWithOutlineChange}
+            className={exportWithOutlineClass}
+            tooltipLabel={exportWithOutlineClass === "exportWithOutlineDisabled" ? "Turn on export with outline" : "Turn off export with outline"}
+          />
         </label>
       </div>
       <Button label="Download" onClick={generateImage} />
