@@ -72,7 +72,7 @@ select {
   border: 0.2px solid black;
 }
 
-.Toolbox .PrimaryTools {
+.Toolbox .PrimaryTools, .DownloadField .DownloadOptions {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -122,6 +122,16 @@ select {
 
 .exportWithOutlineEnabled {
   background: url("./assets/no-export-outline.png");
+}
+
+.exportWithSelectedDimensionsEnabled {
+  background: url("./assets/no-export-with-selected-dimensions.png");
+  background-color: transparent !important;
+}
+
+.exportWithSelectedDimensionsDisabled {
+  background: url("./assets/export-with-selected-dimensions.png");
+  background-color: transparent !important;
 }
 
 .DownloadField .Button button {

@@ -10,6 +10,10 @@ type ExportWithOutlineStatus =
   | "exportWithOutlineEnabled"
   | "exportWithOutlineDisabled";
 
+type ExportWithSelectedDimensionsStatus =
+  | "exportWithSelectedDimensionsEnabled"
+  | "exportWithSelectedDimensionsDisabled";
+
 const Editor: React.FC = () => {
   const [selectedWidth, setSelectedWidth] = useState<number>(16);
   const [selectedHeight, setSelectedHeight] = useState<number>(16);
@@ -23,6 +27,14 @@ const Editor: React.FC = () => {
   const [exportWithOutline, setExportWithOutline] = useState<boolean>(false);
   const [exportWithOutlineClass, setExportWithOutlineClass] =
     useState<ExportWithOutlineStatus>("exportWithOutlineDisabled");
+  const [exportWithSelectedDimensions, setExportWithSelectedDimensions] =
+    useState<boolean>(true);
+  const [
+    exportWithSelectedDimensionsClass,
+    setExportWithSelectedDimensionsClass,
+  ] = useState<ExportWithSelectedDimensionsStatus>(
+    "exportWithSelectedDimensionsEnabled"
+  );
 
   const canvasRef = useRef(null);
 
@@ -41,8 +53,25 @@ const Editor: React.FC = () => {
   };
 
   const handleExportWithOutlineChange = () => {
-    setExportWithOutlineClass(exportWithOutlineClass === "exportWithOutlineDisabled" ? "exportWithOutlineEnabled" : "exportWithOutlineDisabled");
+    setExportWithOutlineClass(
+      exportWithOutlineClass === "exportWithOutlineDisabled"
+        ? "exportWithOutlineEnabled"
+        : "exportWithOutlineDisabled"
+    );
     setExportWithOutline(exportWithOutline ? false : true);
+  };
+
+  const handleExportWithSelectedDimensionsChange = () => {
+    setExportWithSelectedDimensionsClass(
+      exportWithSelectedDimensionsClass ===
+        "exportWithSelectedDimensionsEnabled"
+        ? "exportWithSelectedDimensionsDisabled"
+        : "exportWithSelectedDimensionsEnabled"
+    );
+
+    setExportWithSelectedDimensions(
+      exportWithSelectedDimensions ? false : true
+    );
   };
 
   const generateImage = () => {
@@ -52,35 +81,67 @@ const Editor: React.FC = () => {
       setPixelClass("Pixel showOutline");
     }
 
-    if (selectedFileFormat === "png") {
-      if (canvasRef.current) {
-        toPng(canvasRef.current, {
-          cacheBust: false,
-        })
-          .then((dataURL) => {
-            const link = document.createElement("a");
-            link.download = "pixel-art.png";
-            link.href = dataURL;
-            link.click();
+    if (exportWithSelectedDimensions) {
+      if (selectedFileFormat === "png") {
+        if (canvasRef.current) {
+          toPng(canvasRef.current, {
+            canvasWidth: selectedWidth,
+            canvasHeight: selectedHeight,
           })
-          .catch((err) => {
-            console.log(err);
-          });
+            .then((dataURL) => {
+              const link = document.createElement("a");
+              link.download = "pixel-art.png";
+              link.href = dataURL;
+              link.click();
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      } else {
+        if (canvasRef.current) {
+          toJpeg(canvasRef.current, {
+            canvasWidth: selectedWidth,
+            canvasHeight: selectedHeight,
+          })
+            .then((dataURL) => {
+              const link = document.createElement("a");
+              link.download = "pixel-art.jpg";
+              link.href = dataURL;
+              link.click();
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
       }
     } else {
-      if (canvasRef.current) {
-        toJpeg(canvasRef.current, {
-          cacheBust: false,
-        })
-          .then((dataURL) => {
-            const link = document.createElement("a");
-            link.download = "pixel-art.jpg";
-            link.href = dataURL;
-            link.click();
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+      if (selectedFileFormat === "png") {
+        if (canvasRef.current) {
+          toPng(canvasRef.current)
+            .then((dataURL) => {
+              const link = document.createElement("a");
+              link.download = "pixel-art.png";
+              link.href = dataURL;
+              link.click();
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      } else {
+        if (canvasRef.current) {
+          toJpeg(canvasRef.current)
+            .then((dataURL) => {
+              const link = document.createElement("a");
+              link.download = "pixel-art.jpg";
+              link.href = dataURL;
+              link.click();
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
       }
     }
   };
@@ -157,12 +218,28 @@ const Editor: React.FC = () => {
             <option value="png">.png</option>
             <option value="jpeg">.jpeg</option>
           </select>
+        </label>
+        <div className="DownloadOptions">
           <Button
             onClick={handleExportWithOutlineChange}
             className={exportWithOutlineClass}
-            tooltipLabel={exportWithOutlineClass === "exportWithOutlineDisabled" ? "Turn on export with outline" : "Turn off export with outline"}
+            tooltipLabel={
+              exportWithOutlineClass === "exportWithOutlineDisabled"
+                ? "Turn on export with outline"
+                : "Turn off export with outline"
+            }
           />
-        </label>
+          <Button
+            onClick={handleExportWithSelectedDimensionsChange}
+            className={exportWithSelectedDimensionsClass}
+            tooltipLabel={
+              exportWithSelectedDimensionsClass ===
+              "exportWithSelectedDimensionsEnabled"
+                ? "Turn off export with selected dimensions"
+                : "Turn on export with selected dimensions"
+            }
+          />
+        </div>
       </div>
       <Button label="Download" onClick={generateImage} />
     </div>
