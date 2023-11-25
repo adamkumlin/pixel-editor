@@ -48,10 +48,6 @@ select {
   width: 5rem;
 }
 
-select {
-  margin: auto;
-}
-
 .Field[type="number"] {
   border-radius: 10px;
 }
@@ -144,7 +140,11 @@ select {
   position: absolute;
 }
 
-.PrimaryTools .Button {
+select {
+  margin: auto;
+}
+
+.PrimaryTools .Button, .DownloadOptions .Button {
   position: relative;
 }
 
@@ -161,4 +161,18 @@ select {
 .PrimaryTools .Button:nth-of-type(2) .Tooltip {
   left: 55px;
   top: -3px;
+}
+
+.DownloadOptions .Button:first-of-type .Tooltip {
+  right: 70px;
+  top: -30px;
+}
+
+.DownloadOptions .Button:nth-of-type(2) .Tooltip {
+  left: 70px;
+  top: -30px;
+}
+
+.DownloadOptions {
+  margin-top: 1rem;
 }
